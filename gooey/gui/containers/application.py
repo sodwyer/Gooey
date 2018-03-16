@@ -2,6 +2,9 @@
 Primary orchestration and control point for Gooey.
 """
 
+import json
+import os
+
 import sys
 from itertools import chain
 
@@ -164,6 +167,13 @@ class GooeyApplication(wx.Frame):
 
     def onClose(self, *args, **kwargs):
         """Cleanup the top level WxFrame and shutdown the process"""
+
+        #if dump_build_config:
+        config_path = os.path.join(os.getcwd(), 'gooey_config.json')
+        print('Writing Build Config to: {}'.format(config_path))
+        with open(config_path, 'w') as f:
+            f.write(json.dumps(self.buildSpec, indent=2))
+
         self.Destroy()
         sys.exit()
 
